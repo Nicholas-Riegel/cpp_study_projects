@@ -10,6 +10,23 @@ struct Employee {
     int age;
 };
 
+// Get int helper function 
+// Returns -1 if invalid input
+int getInt(){
+
+    string input;
+    int result;
+    getline(cin, input);
+    
+    try {
+        result = stoi(input);
+        return result;
+    } catch(...){
+        cout << "Invalid input." << endl;
+        return -1;
+    }
+}
+
 // Create employee
 void addEmployee(vector<Employee>& vect){
     
@@ -18,14 +35,13 @@ void addEmployee(vector<Employee>& vect){
     int empAge;
 
     cout << "Enter employee's name" << endl;
-    cin.ignore();
     getline(cin, empName);
     
     cout << "Enter employee's age" << endl;
-    while (!(cin >> empAge) || empAge < 0 || empAge > 150) {
+    empAge = getInt();
+    while (empAge < 0 || empAge > 150) {
         cout << "Invalid age. Please enter a number between 0-150: ";
-        cin.clear();
-        cin.ignore(1000, '\n');
+        empAge = getInt();
     }
 
     emp.name = empName;
@@ -51,7 +67,6 @@ void deleteEmployee(vector<Employee>& vect){
     string empName;
 
     cout << "Please enter the employee's name" << endl;
-    cin.ignore();
     getline(cin, empName);
 
     for (auto it = vect.begin(); it != vect.end();){
@@ -70,12 +85,9 @@ void deleteEmployee(vector<Employee>& vect){
 void editEmployee(vector<Employee>& vect){
     
     string empName;
-    int newAge;
-    string newName;
 
     // Get employee's name
     cout << "Please enter the employee's name" << endl;
-    cin.ignore();
     getline(cin, empName);
 
     // Check if employee exists
@@ -93,17 +105,19 @@ void editEmployee(vector<Employee>& vect){
     }
 
     string answer;
-
+    string newName;
+    int newAge;
+    
     cout << "Choose option" << endl;
     cout << "1. Update name" << endl;
     cout << "2. Update age" << endl;
-    cin >> answer;
+    getline(cin, answer);
 
     if (answer == "1"){
         
         // Get employee's new age
         cout << "Enter employee's new name" << endl;
-        cin >> newName;
+        getline(cin, newName);
         
         // Update employee's name
         for (Employee& e : vect) {
@@ -118,10 +132,10 @@ void editEmployee(vector<Employee>& vect){
         
         // Get employee's new age
         cout << "Enter employee's new age" << endl;
-        while (!(cin >> newAge) || newAge < 0 || newAge > 150) {
+        newAge = getInt();
+        while (newAge < 0 || newAge > 150) {
             cout << "Invalid age. Please enter a number between 0-150: ";
-            cin.clear();
-            cin.ignore(1000, '\n');
+            newAge = getInt();
         }
         
         // Update employee's age
@@ -162,7 +176,7 @@ int main(){
         cout << "3. Delete an employee" << endl;
         cout << "4. Edit an employee" << endl;
         cout << "Or type \"exit\"" << endl;
-        cin >> answer;
+        getline(cin, answer);
 
         if (answer == "exit"){
             break;
