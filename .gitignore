@@ -1,0 +1,10 @@
+# Compiled executables
+main
+*.out
+*.exe
+
+# macOS files
+.DS_Store
+
+# VS Code settings (optional - remove this line if you want to keep VS Code settings)
+.vscode/
