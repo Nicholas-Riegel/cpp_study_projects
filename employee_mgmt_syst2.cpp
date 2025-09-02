@@ -253,15 +253,11 @@ void editEmployee(std::vector<Employee>& vect){
 // Main function
 int main(){
     
-    // Main vector
-    std::vector<Employee> employees;
-
-    // Add some dummy employees
-    Employee emp1 = {.id = 1, .name = "John", .age = 33, .salary = 83000}; 
-    Employee emp2 = {.id = 2, .name = "Fred", .age = 35, .salary = 75000};
-     
-    employees.push_back(emp1);
-    employees.push_back(emp2);
+    // Main vector (with dummy employees)
+    std::vector<Employee> employees = {
+        {1, "John", 33, 83000},
+        {2, "Fred", 35, 75000}
+    };
 
     // Write vector to file and clear
     writeVectorToFileAndClear(employees);
