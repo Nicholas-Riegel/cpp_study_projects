@@ -228,6 +228,7 @@ void editEmployee(std::vector<Employee>& vect){
                 return;
             }
         }
+        
     } else if (option == "3"){
         
         // Get employee's new age
