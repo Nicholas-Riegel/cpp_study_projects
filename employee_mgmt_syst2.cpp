@@ -102,7 +102,7 @@ void addEmployee(std::vector<Employee>& vect){
     
     readFileToVector(vect);
     
-    emp.id = vect.size() + 1;
+    emp.id = vect.back().id + 1;
     emp.name = empName;
     emp.age = empAge;
     emp.salary = empSalary;
@@ -122,7 +122,7 @@ void printEmployees(std::vector<Employee>& vect){
     std::cout << "=====================" << std::endl;
     std::cout << "Id Name Age Salary" << std::endl;
     std::cout << "---------------------" << std::endl;
-    for (Employee e : vect){
+    for (Employee& e : vect){
         std::cout << e.id << " " << e.name << " " << e.age << " " << e.salary << std::endl;
     }
     std::cout << "---------------------" << std::endl;
@@ -158,6 +158,7 @@ void deleteEmployee(std::vector<Employee>& vect){
             ++it;
         }
     }
+
     vect.clear();
     std::cout << "Employee not found." << std::endl;
 }
@@ -228,7 +229,7 @@ void editEmployee(std::vector<Employee>& vect){
                 return;
             }
         }
-        
+
     } else if (option == "3"){
         
         // Get employee's new age
