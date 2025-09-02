@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 
+
 using namespace std;
 
 // Employee struct
@@ -16,8 +17,8 @@ int getInt(){
 
     string input;
     int result;
+
     getline(cin, input);
-    
     try {
         result = stoi(input);
         return result;
