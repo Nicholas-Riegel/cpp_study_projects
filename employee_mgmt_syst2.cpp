@@ -13,7 +13,7 @@ struct Employee {
 
 // Write vector to db file
 void writeVectorToFileAndClear(std::vector<Employee>& vect){
-    std::ofstream db("db.txt");
+    std::ofstream db("employees.csv");
     for (Employee& e : vect){
         db << e.id << "," << e.name << "," << e.age << std::endl;
     } 
@@ -46,7 +46,7 @@ void readFileToVector(std::vector<Employee>& vect){
     std::string line;
     Employee emp;
     
-    std::ifstream db("db.txt");
+    std::ifstream db("employees.csv");
     while (std::getline(db, line))
     {
         emp = lineToEmployee(line);
