@@ -257,9 +257,11 @@ int main(){
     std::vector<Employee> employees;
 
     // Add some dummy employees
-    Employee emp1, emp2;
-    emp1.id = 1; emp1.name = "John"; emp1.age = 33; emp1.salary = 80000; employees.push_back(emp1);
-    emp2.id = 2; emp2.name = "Fred"; emp2.age = 35; emp2.salary = 75000; employees.push_back(emp2);
+    Employee emp1 = {.id = 1, .name = "John", .age = 33, .salary = 83000}; 
+    Employee emp2 = {.id = 2, .name = "Fred", .age = 35, .salary = 75000};
+     
+    employees.push_back(emp1);
+    employees.push_back(emp2);
 
     // Write vector to file and clear
     writeVectorToFileAndClear(employees);
