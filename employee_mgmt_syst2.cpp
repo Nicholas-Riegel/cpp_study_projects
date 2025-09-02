@@ -15,7 +15,7 @@ struct Employee {
 // Write vector to db file and clear
 void writeVectorToFileAndClear(std::vector<Employee>& vect){
     std::ofstream db("employees.csv");
-    for (Employee& e : vect){
+    for (const Employee& e : vect){
         db << e.id << "," << e.name << "," << e.age << "," << e.salary << std::endl;
     } 
 	db.close();
@@ -23,7 +23,7 @@ void writeVectorToFileAndClear(std::vector<Employee>& vect){
 }
 
 // Convert line to Employee helper function
-Employee lineToEmployee(std::string& line){
+Employee lineToEmployee(const std::string& line){
     
     Employee emp;
     std::vector<std::string> employeeParts;
@@ -75,6 +75,19 @@ int getInt(){
     }
 }
 
+// Get next id
+int getNextId(const std::vector<Employee>& vect) {
+    if (vect.empty()) return 1;
+    
+    int maxId = 0;
+    for (const Employee& emp : vect) {
+        if (emp.id > maxId) {
+            maxId = emp.id;
+        }
+    }
+    return maxId + 1;
+}
+
 // Create/add employee
 void addEmployee(std::vector<Employee>& vect){
     
@@ -102,7 +115,7 @@ void addEmployee(std::vector<Employee>& vect){
     
     readFileToVector(vect);
     
-    emp.id = vect.back().id + 1;
+    emp.id = getNextId(vect);
     emp.name = empName;
     emp.age = empAge;
     emp.salary = empSalary;
