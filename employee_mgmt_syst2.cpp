@@ -253,14 +253,8 @@ void editEmployee(std::vector<Employee>& vect){
 // Main function
 int main(){
     
-    // Main vector (with dummy employees)
-    std::vector<Employee> employees = {
-        {1, "John", 33, 83000},
-        {2, "Fred", 35, 75000}
-    };
-
-    // Write vector to file and clear
-    writeVectorToFileAndClear(employees);
+    // Main vector 
+    std::vector<Employee> employees;
 
     // User choice
     std::string answer;
