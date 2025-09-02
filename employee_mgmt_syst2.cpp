@@ -11,7 +11,7 @@ struct Employee {
     int age;
 };
 
-// Write vector to db file
+// Write vector to db file and clear
 void writeVectorToFileAndClear(std::vector<Employee>& vect){
     std::ofstream db("employees.csv");
     for (Employee& e : vect){
@@ -227,7 +227,7 @@ int main(){
     emp1.id = 1; emp1.name = "John"; emp1.age = 33; employees.push_back(emp1);
     emp2.id = 2; emp2.name = "Fred"; emp2.age = 35; employees.push_back(emp2);
 
-    // Write vector to file
+    // Write vector to file and clear
     writeVectorToFileAndClear(employees);
 
     // User choice
