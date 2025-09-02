@@ -9,13 +9,14 @@ struct Employee {
     int id;
     std::string name;
     int age;
+    int salary;
 };
 
 // Write vector to db file and clear
 void writeVectorToFileAndClear(std::vector<Employee>& vect){
     std::ofstream db("employees.csv");
     for (Employee& e : vect){
-        db << e.id << "," << e.name << "," << e.age << std::endl;
+        db << e.id << "," << e.name << "," << e.age << "," << e.salary << std::endl;
     } 
 	db.close();
     vect.clear();
@@ -36,6 +37,7 @@ Employee lineToEmployee(std::string& line){
     emp.id = std::stoi(employeeParts.at(0));
     emp.name = employeeParts.at(1);
     emp.age = std::stoi(employeeParts.at(2));
+    emp.salary = std::stoi(employeeParts.at(3));
     
     return emp;
 }
@@ -79,6 +81,7 @@ void addEmployee(std::vector<Employee>& vect){
     Employee emp;
     std::string empName;
     int empAge;
+    int empSalary;
 
     std::cout << "Enter employee's name" << std::endl;
     std::getline(std::cin, empName);
@@ -90,11 +93,19 @@ void addEmployee(std::vector<Employee>& vect){
         empAge = getInt();
     }
     
+    std::cout << "Enter employee's salary" << std::endl;
+    empSalary = getInt();
+    while (empSalary < 0) {
+        std::cout << "Invalid salary. Please enter a number greater than 0: ";
+        empSalary = getInt();
+    }
+    
     readFileToVector(vect);
     
     emp.id = vect.size() + 1;
     emp.name = empName;
     emp.age = empAge;
+    emp.salary = empSalary;
 
     vect.push_back(emp);
     
@@ -106,13 +117,15 @@ void printEmployees(std::vector<Employee>& vect){
     
     readFileToVector(vect);
     
-    std::cout << "=========" << std::endl;
+    std::cout << "=====================" << std::endl;
     std::cout << "Employees" << std::endl;
-    std::cout << "=========" << std::endl;
+    std::cout << "=====================" << std::endl;
+    std::cout << "Id Name Age Salary" << std::endl;
+    std::cout << "---------------------" << std::endl;
     for (Employee e : vect){
-        std::cout << e.id << " " << e.name << " " << e.age << std::endl;
+        std::cout << e.id << " " << e.name << " " << e.age << " " << e.salary << std::endl;
     }
-    std::cout << "=========" << std::endl;
+    std::cout << "---------------------" << std::endl;
     
     vect.clear();
 }
@@ -168,6 +181,7 @@ void editEmployee(std::vector<Employee>& vect){
     std::string option;
     std::string newName;
     int newAge;
+    int newSalary;
     
     // Load the vector
     readFileToVector(vect);
@@ -176,6 +190,7 @@ void editEmployee(std::vector<Employee>& vect){
     std::cout << "Choose option" << std::endl;
     std::cout << "1. Update name" << std::endl;
     std::cout << "2. Update age" << std::endl;
+    std::cout << "3. Update salary" << std::endl;
     std::getline(std::cin, option);
 
     if (option == "1"){
@@ -213,6 +228,25 @@ void editEmployee(std::vector<Employee>& vect){
                 return;
             }
         }
+    } else if (option == "3"){
+        
+        // Get employee's new age
+        std::cout << "Enter employee's new salary" << std::endl;
+        newSalary = getInt();
+        while (newSalary < 0) {
+            std::cout << "Invalid salary. Please enter a number greater than 0: ";
+            newSalary = getInt();
+        }
+        
+        // Update employee's salary
+        for (Employee& e : vect) {
+            if (e.id == empId) {
+                e.salary = newSalary;
+                writeVectorToFileAndClear(vect);
+                std::cout << "Employee updated." << std::endl;
+                return;
+            }
+        }
     }
 }
 
@@ -224,8 +258,8 @@ int main(){
 
     // Add some dummy employees
     Employee emp1, emp2;
-    emp1.id = 1; emp1.name = "John"; emp1.age = 33; employees.push_back(emp1);
-    emp2.id = 2; emp2.name = "Fred"; emp2.age = 35; employees.push_back(emp2);
+    emp1.id = 1; emp1.name = "John"; emp1.age = 33; emp1.salary = 80000; employees.push_back(emp1);
+    emp2.id = 2; emp2.name = "Fred"; emp2.age = 35; emp2.salary = 75000; employees.push_back(emp2);
 
     // Write vector to file and clear
     writeVectorToFileAndClear(employees);
