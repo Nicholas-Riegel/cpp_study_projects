@@ -70,21 +70,23 @@ int getInt(){
         result = std::stoi(input);
         return result;
     } catch(...){
-        std::cout << "Invalid input." << std::endl;
         return -1;
     }
 }
 
 // Get largest id for new employee
 int getNextId(const std::vector<Employee>& vect) {
+    
     if (vect.empty()) return 1;
     
     int maxId = 0;
+    
     for (const Employee& e : vect) {
         if (e.id > maxId) {
             maxId = e.id;
         }
     }
+    
     return maxId + 1;
 }
 
@@ -102,14 +104,14 @@ void addEmployee(std::vector<Employee>& vect){
     std::cout << "Enter employee's age" << std::endl;
     empAge = getInt();
     while (empAge < 0 || empAge > 150) {
-        std::cout << "Invalid age. Please enter a number between 0-150: ";
+        std::cout << "Invalid age. Please enter a number between 0-150" << std::endl;
         empAge = getInt();
     }
     
     std::cout << "Enter employee's salary" << std::endl;
     empSalary = getInt();
     while (empSalary < 0) {
-        std::cout << "Invalid salary. Please enter a number greater than 0: ";
+        std::cout << "Invalid salary. Please enter a number greater than 0" << std::endl;
         empSalary = getInt();
     }
     
@@ -181,17 +183,6 @@ void editEmployee(std::vector<Employee>& vect){
     
     // Get employee id
     int empId;
-    std::string empIdStr;
-
-    std::cout << "Please enter the employee's id" << std::endl;
-    std::getline(std::cin, empIdStr);
-    try {
-        empId = std::stoi(empIdStr);
-    } catch (...) {
-        std::cout << "Invalid input." << std::endl;
-        return;
-    }
-
     std::string option;
     std::string newName;
     int newAge;
@@ -199,7 +190,25 @@ void editEmployee(std::vector<Employee>& vect){
     
     // Load the vector
     readFileToVector(vect);
-
+    
+    // Get employee id
+    std::cout << "Please enter the employee's id" << std::endl;
+    empId = getInt();
+    
+    // Check if employee exists
+    bool employeeExists = false; 
+    for (Employee& e : vect) {
+        if (e.id == empId) {
+            employeeExists = true;
+            break;
+        }
+    }
+    if (!employeeExists){
+        std::cout << "Employee does not exist" << std::endl;
+        vect.clear();
+        return;
+    }
+    
     // Get user's option
     std::cout << "Choose option" << std::endl;
     std::cout << "1. Update name" << std::endl;
@@ -229,7 +238,7 @@ void editEmployee(std::vector<Employee>& vect){
         std::cout << "Enter employee's new age" << std::endl;
         newAge = getInt();
         while (newAge < 0 || newAge > 150) {
-            std::cout << "Invalid age. Please enter a number between 0-150: ";
+            std::cout << "Invalid age. Please enter a number between 0-150" << std::endl;
             newAge = getInt();
         }
         
@@ -249,7 +258,7 @@ void editEmployee(std::vector<Employee>& vect){
         std::cout << "Enter employee's new salary" << std::endl;
         newSalary = getInt();
         while (newSalary < 0) {
-            std::cout << "Invalid salary. Please enter a number greater than 0: ";
+            std::cout << "Invalid salary. Please enter a number greater than 0" << std::endl;
             newSalary = getInt();
         }
         
@@ -262,6 +271,8 @@ void editEmployee(std::vector<Employee>& vect){
                 return;
             }
         }
+    } else {
+        vect.clear();
     }
 }
 
