@@ -75,14 +75,14 @@ int getInt(){
     }
 }
 
-// Get next id
+// Get largest id for new employee
 int getNextId(const std::vector<Employee>& vect) {
     if (vect.empty()) return 1;
     
     int maxId = 0;
-    for (const Employee& emp : vect) {
-        if (emp.id > maxId) {
-            maxId = emp.id;
+    for (const Employee& e : vect) {
+        if (e.id > maxId) {
+            maxId = e.id;
         }
     }
     return maxId + 1;
