@@ -60,7 +60,7 @@ void readFileToVector(std::vector<Employee>& vect){
 
 // Get int helper function 
 // Returns -1 if invalid input
-int getInt(){
+int getIntOrNegativeOne(){
 
     std::string input;
     int result;
@@ -102,17 +102,17 @@ void addEmployee(std::vector<Employee>& vect){
     std::getline(std::cin, empName);
     
     std::cout << "Enter employee's age" << std::endl;
-    empAge = getInt();
+    empAge = getIntOrNegativeOne();
     while (empAge < 0 || empAge > 150) {
         std::cout << "Invalid age. Please enter a number between 0-150" << std::endl;
-        empAge = getInt();
+        empAge = getIntOrNegativeOne();
     }
     
     std::cout << "Enter employee's salary" << std::endl;
-    empSalary = getInt();
+    empSalary = getIntOrNegativeOne();
     while (empSalary < 0) {
         std::cout << "Invalid salary. Please enter a number greater than 0" << std::endl;
-        empSalary = getInt();
+        empSalary = getIntOrNegativeOne();
     }
     
     readFileToVector(vect);
@@ -145,23 +145,39 @@ void printEmployees(std::vector<Employee>& vect){
     vect.clear();
 }
 
+// Check if employee id exists
+bool employeeExists(const std::vector<Employee>& vect, int empId){
+    bool employeeExists = false; 
+    for (const Employee& e : vect) {
+        if (e.id == empId) {
+            employeeExists = true;
+            break;
+        }
+    }
+    return employeeExists;
+}
+
 // Delete employees
 void deleteEmployee(std::vector<Employee>& vect){
 
     // Get employee id
     int empId;
-    std::string empIdStr;
 
     std::cout << "Please enter the employee's id" << std::endl;
-    std::getline(std::cin, empIdStr);
-    try {
-        empId = std::stoi(empIdStr);
-    } catch (...) {
-        std::cout << "Invalid input." << std::endl;
+    empId = getIntOrNegativeOne();
+
+    if (empId < 0){
+        std::cout << "Invalid input" << std::endl;
         return;
     }
 
     readFileToVector(vect);
+
+    if (!employeeExists(vect, empId)){
+        vect.clear();
+        std::cout << "Employee not found." << std::endl;
+        return;
+    }
 
     for (auto it = vect.begin(); it != vect.end();){
         if (it->id == empId) {
@@ -175,7 +191,42 @@ void deleteEmployee(std::vector<Employee>& vect){
     }
 
     vect.clear();
-    std::cout << "Employee not found." << std::endl;
+}
+
+// enum class for helper function
+enum class EmployeeField {
+    NAME,
+    AGE,
+    SALARY
+};
+
+// update helper function
+void update(
+    std::vector<Employee>& vect, 
+    int& empId, 
+    EmployeeField empField, 
+    std::string stringValue, 
+    int intValue
+){
+    
+    for (Employee& e : vect) {
+        if (e.id == empId) {
+            switch (empField) {
+                case EmployeeField::NAME:
+                    e.name = stringValue;
+                    break;
+                case EmployeeField::AGE:
+                    e.age = intValue;
+                    break;
+                case EmployeeField::SALARY:
+                    e.salary = intValue;
+                    break;
+            }
+            writeVectorToFileAndClear(vect);
+            std::cout << "Employee updated." << std::endl;
+            return;
+        }
+    }
 }
 
 // Edit employee
@@ -188,24 +239,22 @@ void editEmployee(std::vector<Employee>& vect){
     int newAge;
     int newSalary;
     
-    // Load the vector
-    readFileToVector(vect);
-    
     // Get employee id
     std::cout << "Please enter the employee's id" << std::endl;
-    empId = getInt();
+    empId = getIntOrNegativeOne();
     
     // Check if employee exists
-    bool employeeExists = false; 
-    for (Employee& e : vect) {
-        if (e.id == empId) {
-            employeeExists = true;
-            break;
-        }
+    if (empId < 0){
+        std::cout << "Invalid input" << std::endl;
+        return;
     }
-    if (!employeeExists){
-        std::cout << "Employee does not exist" << std::endl;
+
+    // Load the vector
+    readFileToVector(vect);
+
+    if (!employeeExists(vect, empId)){
         vect.clear();
+        std::cout << "Employee not found." << std::endl;
         return;
     }
     
@@ -218,59 +267,36 @@ void editEmployee(std::vector<Employee>& vect){
 
     if (option == "1"){
         
-        // Get employee's new age
+        // Get employee's new name
         std::cout << "Enter employee's new name" << std::endl;
         std::getline(std::cin, newName);
         
-        // Update employee's name
-        for (Employee& e : vect) {
-            if (e.id == empId) {
-                e.name = newName;
-                writeVectorToFileAndClear(vect);
-                std::cout << "Employee updated." << std::endl;
-                return;
-            }
-        }
+        update(vect, empId, EmployeeField::NAME, newName, 0);
 
     } else if (option == "2"){
         
         // Get employee's new age
         std::cout << "Enter employee's new age" << std::endl;
-        newAge = getInt();
+        newAge = getIntOrNegativeOne();
         while (newAge < 0 || newAge > 150) {
             std::cout << "Invalid age. Please enter a number between 0-150" << std::endl;
-            newAge = getInt();
+            newAge = getIntOrNegativeOne();
         }
         
-        // Update employee's age
-        for (Employee& e : vect) {
-            if (e.id == empId) {
-                e.age = newAge;
-                writeVectorToFileAndClear(vect);
-                std::cout << "Employee updated." << std::endl;
-                return;
-            }
-        }
+        update(vect, empId, EmployeeField::AGE, "", newAge);
 
     } else if (option == "3"){
         
-        // Get employee's new age
+        // Get employee's new salary
         std::cout << "Enter employee's new salary" << std::endl;
-        newSalary = getInt();
+        newSalary = getIntOrNegativeOne();
         while (newSalary < 0) {
             std::cout << "Invalid salary. Please enter a number greater than 0" << std::endl;
-            newSalary = getInt();
+            newSalary = getIntOrNegativeOne();
         }
         
-        // Update employee's salary
-        for (Employee& e : vect) {
-            if (e.id == empId) {
-                e.salary = newSalary;
-                writeVectorToFileAndClear(vect);
-                std::cout << "Employee updated." << std::endl;
-                return;
-            }
-        }
+        update(vect, empId, EmployeeField::SALARY, "", newSalary);
+        
     } else {
         vect.clear();
     }
