@@ -98,15 +98,18 @@ void addEmployee(std::vector<Employee>& vect){
     
     std::cout << "Enter employee's age" << std::endl;
     empAge = getIntOrNegativeOne();
-    while (empAge < 0 || empAge > 150) {
-        std::cout << "Invalid age. Please enter a number between 0-150" << std::endl;
+    while (empAge < EmployeeValidation::MIN_AGE || empAge > EmployeeValidation::MAX_AGE) {
+        std::cout << "Invalid age. Please enter a number between " 
+                  << EmployeeValidation::MIN_AGE << "-" 
+                  << EmployeeValidation::MAX_AGE << std::endl;
         empAge = getIntOrNegativeOne();
     }
     
     std::cout << "Enter employee's salary" << std::endl;
     empSalary = getIntOrNegativeOne();
-    while (empSalary < 0) {
-        std::cout << "Invalid salary. Please enter a number greater than 0" << std::endl;
+    while (empSalary < EmployeeValidation::MIN_SALARY) {
+        std::cout << "Invalid salary. Please enter a number greater than " 
+                  << EmployeeValidation::MIN_SALARY << std::endl;
         empSalary = getIntOrNegativeOne();
     }
     
@@ -165,7 +168,7 @@ void deleteEmployee(std::vector<Employee>& vect){
     std::cout << "Please enter the employee's id" << std::endl;
     empId = getIntOrNegativeOne();
 
-    if (empId < 0){
+    if (empId < EmployeeValidation::INVALID_ID){
         std::cout << "Invalid input" << std::endl;
         return;
     }
@@ -235,7 +238,7 @@ void editEmployee(std::vector<Employee>& vect){
     empId = getIntOrNegativeOne();
     
     // Check if employee exists
-    if (empId < 0){
+    if (empId < EmployeeValidation::INVALID_ID){
         std::cout << "Invalid input" << std::endl;
         return;
     }
@@ -269,8 +272,10 @@ void editEmployee(std::vector<Employee>& vect){
         // Get employee's new age
         std::cout << "Enter employee's new age" << std::endl;
         newAge = getIntOrNegativeOne();
-        while (newAge < 0 || newAge > 150) {
-            std::cout << "Invalid age. Please enter a number between 0-150" << std::endl;
+        while (newAge < EmployeeValidation::MIN_AGE || newAge > EmployeeValidation::MAX_AGE) {
+            std::cout << "Invalid age. Please enter a number between " 
+                      << EmployeeValidation::MIN_AGE << "-" 
+                      << EmployeeValidation::MAX_AGE << std::endl;
             newAge = getIntOrNegativeOne();
         }
         
@@ -281,8 +286,9 @@ void editEmployee(std::vector<Employee>& vect){
         // Get employee's new salary≠≠
         std::cout << "Enter employee's new salary" << std::endl;
         newSalary = getIntOrNegativeOne();
-        while (newSalary < 0) {
-            std::cout << "Invalid salary. Please enter a number greater than 0" << std::endl;
+        while (newSalary < EmployeeValidation::MIN_SALARY) {
+            std::cout << "Invalid salary. Please enter a number greater than " 
+                      << EmployeeValidation::MIN_SALARY << std::endl;
             newSalary = getIntOrNegativeOne();
         }
         

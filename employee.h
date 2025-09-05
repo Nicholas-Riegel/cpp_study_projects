@@ -12,6 +12,14 @@ struct Employee {
     int salary;
 };
 
+// Employee validation
+namespace EmployeeValidation {
+    const int MAX_AGE = 150;
+    const int MIN_AGE = 0;
+    const int MIN_SALARY = 0;
+    const int INVALID_ID = 0;
+};
+
 // Write vector to db file and clear
 void writeVectorToFileAndClear(std::vector<Employee>& vect);
 
