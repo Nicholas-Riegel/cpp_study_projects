@@ -12,7 +12,7 @@ namespace EmployeeValidation {
     const int MAX_AGE = 150;
     const int MIN_AGE = 0;
     const int MIN_SALARY = 0;
-    const int INVALID_ID = 0;
+    const int MIN_VALID = 0;
 };
 
 // Employee struct
@@ -195,7 +195,7 @@ void deleteEmployee(std::vector<Employee>& vect){
     std::cout << "Please enter the employee's id" << std::endl;
     empId = getIntOrNegativeOne();
 
-    if (empId < EmployeeValidation::INVALID_ID){
+    if (empId < EmployeeValidation::MIN_VALID){
         std::cout << "Invalid input" << std::endl;
         return;
     }
@@ -265,7 +265,7 @@ void editEmployee(std::vector<Employee>& vect){
     empId = getIntOrNegativeOne();
     
     // Check if employee exists
-    if (empId < EmployeeValidation::INVALID_ID){
+    if (empId < EmployeeValidation::MIN_VALID){
         std::cout << "Invalid input" << std::endl;
         return;
     }

@@ -16,7 +16,6 @@ int main(){
     
     while (true){
 
-        std::cout << std::endl;
         std::cout << "Choose an option" << std::endl;
         std::cout << "1. Show employees" << std::endl;
         std::cout << "2. Add an employee" << std::endl;
