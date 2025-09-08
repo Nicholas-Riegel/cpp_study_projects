@@ -176,14 +176,12 @@ void printEmployees(std::vector<Employee>& vect){
 
 // Check if employee id exists
 bool employeeExists(const std::vector<Employee>& vect, int empId){
-    bool employeeExists = false; 
     for (const Employee& e : vect) {
         if (e.id == empId) {
-            employeeExists = true;
-            break;
+            return true;
         }
     }
-    return employeeExists;
+    return false;
 }
 
 // Delete employees
