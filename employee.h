@@ -12,8 +12,13 @@ namespace EmployeeValidation {
     const int MAX_AGE = 150;
     const int MIN_AGE = 0;
     const int MIN_SALARY = 0;
-    const int MIN_VALID = 0;
+    const int MIN_VALID_ID = 0;
 };
+
+// File paths namespace
+namespace FilePaths {
+    const std::string EMPLOYEE_DB = "employees.csv";
+}
 
 // Employee struct
 struct Employee {
@@ -31,8 +36,8 @@ enum class EmployeeField {
 };
 
 // Write vector to db file and clear
-void writeVectorToFileAndClear(std::vector<Employee>& vect){
-    std::ofstream db("employees.csv");
+void writeVectorToFileAndClear(std::vector<Employee>& vect, std::string file){
+    std::ofstream db(file);
     for (const Employee& e : vect){
         db 
         << e.id << "," 
@@ -65,12 +70,12 @@ Employee lineToEmployee(const std::string& line){
 }
 
 // Read db file to vector
-void readFileToVector(std::vector<Employee>& vect){
+void readFileToVector(std::string file, std::vector<Employee>& vect){
     
     std::string line;
     Employee emp;
     
-    std::ifstream db("employees.csv");
+    std::ifstream db(file);
     while (std::getline(db, line))
     {
         emp = lineToEmployee(line);
@@ -140,7 +145,7 @@ void addEmployee(std::vector<Employee>& vect){
         empSalary = getIntOrNegativeOne();
     }
     
-    readFileToVector(vect);
+    readFileToVector(FilePaths::EMPLOYEE_DB, vect);
     
     emp.id = getNextId(vect);
     emp.name = empName;
@@ -149,13 +154,13 @@ void addEmployee(std::vector<Employee>& vect){
 
     vect.push_back(emp);
     
-    writeVectorToFileAndClear(vect);
+    writeVectorToFileAndClear(vect, FilePaths::EMPLOYEE_DB);
 }
 
 // Print employees
 void printEmployees(std::vector<Employee>& vect){
     
-    readFileToVector(vect);
+    readFileToVector(FilePaths::EMPLOYEE_DB, vect);
     
     std::cout << "======================================" << std::endl;
     std::cout << "Employees" << std::endl;
@@ -193,12 +198,12 @@ void deleteEmployee(std::vector<Employee>& vect){
     std::cout << "Please enter the employee's id" << std::endl;
     empId = getIntOrNegativeOne();
 
-    if (empId < EmployeeValidation::MIN_VALID){
+    if (empId < EmployeeValidation::MIN_VALID_ID){
         std::cout << "Invalid input" << std::endl;
         return;
     }
 
-    readFileToVector(vect);
+    readFileToVector(FilePaths::EMPLOYEE_DB, vect);
 
     if (!employeeExists(vect, empId)){
         vect.clear();
@@ -210,7 +215,7 @@ void deleteEmployee(std::vector<Employee>& vect){
         if (it->id == empId) {
             it = vect.erase(it);
             std::cout << "Employee deleted." << std::endl;
-            writeVectorToFileAndClear(vect);
+            writeVectorToFileAndClear(vect, FilePaths::EMPLOYEE_DB);
             return;
         } else {
             ++it;
@@ -241,7 +246,7 @@ void update(
                     e.salary = intValue;
                     break;
             }
-            writeVectorToFileAndClear(vect);
+            writeVectorToFileAndClear(vect, FilePaths::EMPLOYEE_DB);
             std::cout << "Employee updated." << std::endl;
             return;
         }
@@ -263,13 +268,13 @@ void editEmployee(std::vector<Employee>& vect){
     empId = getIntOrNegativeOne();
     
     // Check if employee exists
-    if (empId < EmployeeValidation::MIN_VALID){
+    if (empId < EmployeeValidation::MIN_VALID_ID){
         std::cout << "Invalid input" << std::endl;
         return;
     }
 
     // Load the vector
-    readFileToVector(vect);
+    readFileToVector(FilePaths::EMPLOYEE_DB, vect);
 
     if (!employeeExists(vect, empId)){
         vect.clear();

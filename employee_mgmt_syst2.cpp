@@ -16,12 +16,14 @@ int main(){
     
     while (true){
 
+        std::cout << std::endl;
         std::cout << "Choose an option" << std::endl;
         std::cout << "1. Show employees" << std::endl;
         std::cout << "2. Add an employee" << std::endl;
         std::cout << "3. Delete an employee" << std::endl;
         std::cout << "4. Edit an employee" << std::endl;
         std::cout << "Or type \"exit\"" << std::endl;
+        
         std::getline(std::cin, answer);
 
         if (answer == "exit"){
