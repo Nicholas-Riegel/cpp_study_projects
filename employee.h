@@ -12,7 +12,7 @@ namespace EmployeeValidation {
     const int MAX_AGE = 150;
     const int MIN_AGE = 0;
     const int MIN_SALARY = 0;
-    const int MIN_VALID_ID = 0;
+    const int MIN_VALID_ID = 1;
 };
 
 // File paths namespace
